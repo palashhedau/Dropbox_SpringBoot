@@ -1,7 +1,6 @@
 package com.tools.service;
 
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MultiValueMap;
 
 import com.tools.entity.user_files;
 import com.tools.repository.FileRepository;
@@ -73,31 +71,5 @@ public class FileService {
 		
 		return false ;
 	}
-
-	public boolean createFolder(GetAllFiles params) {
-		System.out.println(params.getDirectory() + params.getEmail() + params.getFoldername());
-		if(fileRepository.findByEmailAndIsdeletedAndDirectoryAndFilename(params.getEmail() , 0 , params.getDirectory()
-																		, params.getFoldername()).size() > 0) {
-			return false ; 
-		}else {
-			user_files file = new user_files();
-			file.setDirectory(params.getDirectory());
-			file.setEmail(params.getEmail());
-			file.setFilename(params.getFoldername());
-			file.setFileadddate(new Date());
-			file.setStarred(0);
-			file.setIsdirectory(1);
-			file.setIsdeleted(0);
-			
-			user_files savedFile = fileRepository.save(file);
-			if(savedFile != null) {
-				return true ;
-			}else {
-				return false;
-			}
-		}
-	}
-	
-	
 	
 }

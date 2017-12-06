@@ -1,39 +1,39 @@
-import axios from 'axios'
-
+import axios from 'axios' ; 
 
 const headers = {
     'Accept': 'application/json'
 };
 
 
-
-export function createFolder(email , foldername , directory )  {
+export function getHistoryItems(email )  {
 	
-		return function(dispatch){
-			fetch('http://localhost:8081/createFolder', {
+
+	return function(dispatch){
+			fetch('http://localhost:3002/getFilesHistory', {
 	        method: 'POST',
 	        headers: {
 	            ...headers,
 	            'Content-Type': 'application/json'
 	        },
 	        credentials:'include',
-	   	    body: JSON.stringify({email : email ,
-		 	foldername : foldername,
-		 	directory : directory})
+	   	    body: JSON.stringify({email : email })
 
 	  		}).then(function (response) {
 			       
 			      response.json().then(res => {
 			      
+			      	dispatch({type : 'HISTORY_OBJECT_SUCCESS' , payload : res});
 			      
-					dispatch({type : 'CREATE_FOLDERNAME' , payload : res })
 			      
 				})
 																		        
 	   		})
 	        .catch(error => {
-	          dispatch({type : 'CREATE_FOLDERNAME' , payload : false })
+	            console.log("This is error");
 	            
 	        })
 		}
+
+
+	
 }

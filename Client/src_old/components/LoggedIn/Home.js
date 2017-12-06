@@ -167,8 +167,7 @@ class Home extends Component{
    
    componentWillReceiveProps(newProps){
 	   	//Files
-	   	if(newProps.deleteFileSuccess == true || newProps.unStarSuccess == true || newProps.starSuccess == true ||
-	   		newProps.createFolderSuccess == true  ){
+	   	if(newProps.deleteFileSuccess == true || newProps.unStarSuccess == true || newProps.starSuccess == true  ){
 	   		  newProps.getAllFiles(newProps.email,'',newProps.directory) ; 
 		      newProps.getAllStarredFiles(newProps.email , newProps.directory);
 		      newProps.getRecentFiles(newProps.email) ; 
@@ -176,8 +175,7 @@ class Home extends Component{
 
 	   	}
 
-	   	if(newProps.deleteFileSuccess == false || newProps.unStarSuccess == false || newProps.starSuccess == false ||
-	   		newProps.createFolderSuccess == false  ){
+	   	if(newProps.deleteFileSuccess == false || newProps.unStarSuccess == false || newProps.starSuccess == false  ){
 	   		newProps.setBackVariables()
 	   	}
 
@@ -520,8 +518,7 @@ function mapStateToProps(state) {
         starSuccess : state.fileUploadReducer.starSuccess ,
         groupCreateSuccess : state.groupsReducer.groupCreateSuccess,
         deleteMemberSuccess : state.groupsReducer.deleteMemberSuccess,
-        deleteGroupSuccess : state.groupsReducer.deleteGroupSuccess,
-        createFolderSuccess : state.fileUploadReducer.createFolderSuccess
+        deleteGroupSuccess : state.groupsReducer.deleteGroupSuccess
     };
 }
 

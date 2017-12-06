@@ -186,7 +186,7 @@ class FileComponent extends Component{
 
 
 			 	{
-			 		this.props.file.isdirectory == '1' ? 
+			 		this.props.file.is_directory == '1' ? 
 			 			<Link   to={this.state.url  +  this.props.file.filename} > 
 							<img src={require("../../fonts/folder.jpg")}  height="40" width="40"/>
 							{this.props.file.filename}

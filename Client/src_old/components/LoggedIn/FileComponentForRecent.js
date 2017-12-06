@@ -145,7 +145,7 @@ class FileComponent extends Component{
 
 														<option>---Select Group---</option> 	
 												 	{this.props.groupList.map((group , key) => {
-												  		return <option   key={key}>{group.group_name} - {group.groupowner}</option>
+												  		return <option   key={key}>{group.groupname} - {group.groupowner}</option>
 												  	})} 
 
 								</select>
@@ -163,7 +163,7 @@ class FileComponent extends Component{
 									       			
 									       		})
 									       		this.props.shareFileInGroup(this.props.email , this.state.shareToGroup 
-									       			,this.props.file.filename , this.props.file.directory , this.props.file.is_directory  )
+									       			,this.props.file.filename , this.props.file.directory , this.props.file.isdirectory  )
 									       		this.setState({
 									       			modal2IsOpen : false 
 									       		})
@@ -178,16 +178,19 @@ class FileComponent extends Component{
 	                        
                         
                  </Modal>
+				
+				{
+			 		this.props.file.is_directory == '1' ? 
+			 			<Link   to={
+
+			 				(
+			 					this.props.file.directory === 'root' ?  
+			 					this.state.url  +  this.props.file.filename : 
+			 					this.state.url  + this.props.file.directory + '/' +  this.props.file.filename 
+			 				) 
 
 
-
-
-
-
-
-			 	{
-			 		this.props.file.isdirectory == '1' ? 
-			 			<Link   to={this.state.url  +  this.props.file.filename} > 
+			 				} > 
 							<img src={require("../../fonts/folder.jpg")}  height="40" width="40"/>
 							{this.props.file.filename}
 						</Link> 

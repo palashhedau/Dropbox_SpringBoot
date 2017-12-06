@@ -3,9 +3,7 @@ package com.tools.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,13 +61,4 @@ public class FileController {
 	public boolean starFile(@RequestBody FilesParams params){
 		return fileService.starFile(params) ;  
 	}
-	
-	
-
-	@RequestMapping(method=RequestMethod.POST , value="/createFolder", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?>  createFolder(@RequestBody GetAllFiles params){
-		return new  ResponseEntity(fileService.createFolder(params) , HttpStatus.OK) ;
-	}
-	
-	
 }

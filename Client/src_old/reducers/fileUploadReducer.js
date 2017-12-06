@@ -10,8 +10,7 @@ const initialState = {
 	listOfIndividualSHaredContent : [],
 	deleteFileSuccess : null ,
 	unStarSuccess : null ,
-	starSuccess : null ,
-	createFolderSuccess : null 
+	starSuccess : null 
 }
 
 
@@ -27,7 +26,7 @@ export default function reducer (state=initialState , action )  {
 		}
 		case 'GET_ALL_FILES_SUCCESS' : {
 			
-			return {...state , listOfFiles : action.payload , deleteFileSuccess : null , unStarSuccess : null , starSuccess : null , createFolderSuccess : null}
+			return {...state , listOfFiles : action.payload , deleteFileSuccess : null , unStarSuccess : null , starSuccess : null}
 		}
 		
 		//Star Files
@@ -35,7 +34,7 @@ export default function reducer (state=initialState , action )  {
 			return {...state  , starSuccess : action.payload} ;
 		}
 		case 'GET_STAR_FILES' : {
-			return {...state , listOfStarredFiles : action.payload , deleteFileSuccess : null , unStarSuccess : null , starSuccess : null , createFolderSuccess : null} ;
+			return {...state , listOfStarredFiles : action.payload , deleteFileSuccess : null , unStarSuccess : null , starSuccess : null } ;
 		}
 		case 'UN_STAR_FILE' : {
 			return {...state , unStarSuccess :  action.payload } 
@@ -50,8 +49,9 @@ export default function reducer (state=initialState , action )  {
 
 		
 		//folder 
-		case 'CREATE_FOLDERNAME' : {
-			return {...state , listOfFiles : action.payload.filelist } 
+		case 'CREATE_FOLDERNAME_SUCCESS' : {
+			return {...state , listOfFiles : action.payload.filelist , 
+								} 
 		}
 
 
@@ -74,7 +74,7 @@ export default function reducer (state=initialState , action )  {
 								groupmembers : action.payload.groupMemberList}
 		}
 		case 'GET_RECENT_FILES_SUCCESS' : {
-			return {...state ,  listOfRecentFiles : action.payload ,createFolderSuccess : null ,  deleteFileSuccess : null , unStarSuccess : null , starSuccess : null }
+			return {...state ,  listOfRecentFiles : action.payload , deleteFileSuccess : null , unStarSuccess : null , starSuccess : null }
 		}
 		case 'SET_CURRENT_INDIVIDUAL_FOLDER_CONTENT_SUCCESS' : {
 			return {...state ,  listOfIndividualSHaredContent : action.payload.subGroupContent}
@@ -82,7 +82,7 @@ export default function reducer (state=initialState , action )  {
 
 		//set back variables 
 		case 'SET_BACK_FILE_REDUCER_VARIABLES' : {
-			return {...state , deleteFileSuccess : null , unStarSuccess : null , starSuccess : null , createFolderSuccess: null}
+			return {...state , deleteFileSuccess : null , unStarSuccess : null , starSuccess : null }
 		}
 
 		

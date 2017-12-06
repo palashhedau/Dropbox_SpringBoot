@@ -180,7 +180,7 @@ class FileComponent extends Component{
                  </Modal>
 				
 				{
-			 		this.props.file.is_directory == '1' ? 
+			 		this.props.file.isdirectory == '1' ? 
 			 			<Link   to={
 
 			 				(

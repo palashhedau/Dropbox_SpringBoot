@@ -10,7 +10,7 @@ const headers = {
 export function createFolder(email , foldername , directory )  {
 	
 		return function(dispatch){
-			fetch('http://localhost:8081/createFolder', {
+			fetch('http://localhost:3002/createFolder', {
 	        method: 'POST',
 	        headers: {
 	            ...headers,
@@ -25,14 +25,13 @@ export function createFolder(email , foldername , directory )  {
 			       
 			      response.json().then(res => {
 			      
-			      
-					dispatch({type : 'CREATE_FOLDERNAME' , payload : res })
+					dispatch({type : 'CREATE_FOLDERNAME_SUCCESS' , payload : res })
 			      
 				})
 																		        
 	   		})
 	        .catch(error => {
-	          dispatch({type : 'CREATE_FOLDERNAME' , payload : false })
+	            dispatch({type : 'CREATE_FOLDERNAME_FAILURE' , payload : error})
 	            
 	        })
 		}
