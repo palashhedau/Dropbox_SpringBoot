@@ -49,7 +49,7 @@ class GroupComponent extends Component{
 		return (
 				 <li   className="list-group-item padd">
 				 	<Link  data-toggle="tooltip" data-placement="bottom" title={this.props.group.groupowner}
-				 		   to={this.state.groupUrl + this.props.group._id}>{this.props.group.groupname}</Link>
+				 		   to={this.state.groupUrl + this.props.group.id}>{this.props.group.groupname}</Link>
 				 	
 				 	{
 				 		this.props.email === this.props.group.groupowner ? 

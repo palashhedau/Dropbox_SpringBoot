@@ -8,8 +8,7 @@ const initialState = {
 export default function reducer (state=initialState , action )  {
 	switch(action.type){
 		case 'REGISTRATION_SUCCESS' : {
-			return {...state , registered : action.payload.success , 
-								error : action.payload.error }
+			return {...state , registered : action.payload }
 		}
 		case 'REGISTRATION_FALIURE' : {
 			return {...state ,  error : action.payload }

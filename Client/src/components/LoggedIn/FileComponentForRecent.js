@@ -71,7 +71,7 @@ class FileComponent extends Component{
 			fontSize: "20px"
 		}
 
-		console.log('Starred or not ' , this.props.file.starred) 
+		console.log('groupList  ' , this.props.groupList) 
 		return (
 			
 

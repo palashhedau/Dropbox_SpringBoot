@@ -15,7 +15,6 @@ export function uploadFile(email , file , name , directory )  {
 	return  function(dispatch){
 		 axios.post('http://localhost:3002/upload' , data , {withCredentials: true} )
 	  .then(function (response) {
-	  	
 	  	dispatch({type : 'FILE_UPLOAD_SUCCESS' , payload : response.data})
 	  })
 	  .catch(function (error) {
@@ -100,7 +99,7 @@ export function deleteFile(email , filename , directory  )  {
 
 	  		}).then(function (response) {
 	  			response.json().then(res => {
-			      	dispatch({type : 'DELETE_FILE_SUCCESS' , payload : res})
+	  				dispatch({type : 'DELETE_FILE_SUCCESS' , payload : res.updateOfExisting})
 			      })
 			})
 	        .catch(error => {

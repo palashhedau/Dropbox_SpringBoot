@@ -10,7 +10,7 @@ const headers = {
 export function submitProfile(email , about , education , profession , lifeevents )  {
 	
 	return function(dispatch){
-			fetch('http://localhost:3002/submitProfile', {
+			fetch('http://localhost:8081/submitProfile', {
 	        method: 'POST',
 	        headers: {
 	            ...headers,
@@ -24,16 +24,12 @@ export function submitProfile(email , about , education , profession , lifeevent
 							  	 lifeevents : lifeevents})
 
 	  		}).then(function (response) {
-			        console.log("Response from server " , response);
-			      response.json().then(res => {
-			      	dispatch({type : 'PROFILE_ADD_SUCCESS' , payload : null});
-
-			    })
-																		        
-	   		})
+			    response.json().then(res => {
+			      	dispatch({type : 'PROFILE_SUBMIT' , payload : res});
+				})
+			})
 	        .catch(error => {
-	            dispatch({type : 'PROFILE_ADD_FAILURE' , payload : error})
-	            
+	            dispatch({type : 'PROFILE_SUBMIT' , payload : false})
 	        })
 		}
 }
@@ -64,10 +60,8 @@ export function updateProfile(email , about , education , profession , lifeevent
 }
 
 export function getProfile(email  )  {
-
-
-	return function(dispatch){
-			fetch('http://localhost:3002/getProfile', {
+		return function(dispatch){
+			fetch('http://localhost:8081/getProfile', {
 	        method: 'POST',
 	        headers: {
 	            ...headers,
@@ -77,14 +71,10 @@ export function getProfile(email  )  {
 	   	    body: JSON.stringify({email : email})
 
 	  		}).then(function (response) {
-			        
-			      response.json().then(res => {
-			      
+			    response.json().then(res => {
 			      dispatch({type : 'GET_PROFILE_SUCCESS' , payload : res});
-
-			    })
-																		        
-	   		})
+				})
+			})
 	        .catch(error => {
 	          dispatch({type : 'GET_PROFILE_FAILURE' , payload : error})
 	            
@@ -96,7 +86,7 @@ export function getProfile(email  )  {
 export function checkProfileExist(email)  {
 	
 	return function(dispatch){
-			fetch('http://localhost:3002/checkProfileExist', {
+			fetch('http://localhost:8081/checkProfileExist', {
 	        method: 'POST',
 	        headers: {
 	            ...headers,
@@ -108,7 +98,10 @@ export function checkProfileExist(email)  {
 	  		}).then(function (response) {
 			        
 			      response.json().then(res => {
-			      dispatch({type : 'CHECK_PROFILE_SUCCESS' , payload :  res });
+			      	console.log("Checking profile exist " , res.length ) ;
+			      	var exist = false ;
+			      	res.length == 1 ? exist = true : exist = false ; 
+			      dispatch({type : 'CHECK_PROFILE_SUCCESS' , payload :  {profileExist : exist , user : res[0]} });
 
 			    })
 																		        

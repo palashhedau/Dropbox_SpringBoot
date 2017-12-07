@@ -159,7 +159,6 @@ export function addMembersToTheGroup(email , emailtoadd , groupname , id )  {
 
 
 export function getAllGroups(email )  {
-	
 		return function(dispatch){
 			fetch('http://localhost:8081/getAllGroups', {
 	        method: 'POST',
@@ -171,14 +170,14 @@ export function getAllGroups(email )  {
 	   	    body: JSON.stringify({email: email})
 
 	  		}).then(function (response) {
-			      response.json().then(res => {
-			      	console.log("Group data " , res ) ; 
-					dispatch({type : 'GET_ALL_GROUPS_SUCCESS' , payload :  res })
+
+	  			response.json().then(res => {
+	  				console.log("Getting all groups " , res );
+			      	dispatch({type : 'GET_ALL_GROUPS_SUCCESS' , payload :  res })
 			    })
 			})
 	        .catch(error => {
 	            console.log("This is error");
-	            
 	        })
 		}
 }
@@ -272,7 +271,6 @@ export function openFolderAndViewContent(email , folderowner ,  foldername)  {
 
 
 export function getAllSharedGroupComponents(email , groupname )  {
-	
 	return function(dispatch){
 			fetch('http://localhost:3002/getAllSharedGroupComponents', {
 	        method: 'POST',
@@ -285,23 +283,16 @@ export function getAllSharedGroupComponents(email , groupname )  {
 	  			group_id : groupname })
 
 	  		}).then(function (response) {
-			      
-			      response.json().then(res => {
-			      	
-			      	
+			    response.json().then(res => {
 			      dispatch({type : 'GET_GROUP_SHARED_FILE_SUCCESS' , payload : res.filelist });
 			      
 				})
-																		        
-	   		})
+			})
 	        .catch(error => {
 	            
 	            dispatch({type : 'GET_GROUP_SHARED_FILE_FAILURE' , payload : error})
 	        })
 		}
-
-
-
 }
 
 

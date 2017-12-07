@@ -18,22 +18,17 @@ export function createFolder(email , foldername , directory )  {
 	        },
 	        credentials:'include',
 	   	    body: JSON.stringify({email : email ,
-		 	foldername : foldername,
-		 	directory : directory})
-
-	  		}).then(function (response) {
-			       
-			      response.json().then(res => {
-			      
-			      
-					dispatch({type : 'CREATE_FOLDERNAME' , payload : res })
+							 	foldername : foldername,
+							 	directory : directory})
+			}).then(function (response) {
+			    response.json().then(res => {
+			      dispatch({type : 'CREATE_FOLDERNAME' , payload : res })
 			      
 				})
 																		        
 	   		})
 	        .catch(error => {
 	          dispatch({type : 'CREATE_FOLDERNAME' , payload : false })
-	            
 	        })
 		}
 }

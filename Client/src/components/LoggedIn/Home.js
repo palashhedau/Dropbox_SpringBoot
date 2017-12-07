@@ -172,9 +172,7 @@ class Home extends Component{
 	   		  newProps.getAllFiles(newProps.email,'',newProps.directory) ; 
 		      newProps.getAllStarredFiles(newProps.email , newProps.directory);
 		      newProps.getRecentFiles(newProps.email) ; 
-
-
-	   	}
+		}
 
 	   	if(newProps.deleteFileSuccess == false || newProps.unStarSuccess == false || newProps.starSuccess == false ||
 	   		newProps.createFolderSuccess == false  ){
@@ -183,14 +181,23 @@ class Home extends Component{
 
 
 	   	//Groups
-	   	if(newProps.groupCreateSuccess == true || newProps.deleteGroupSuccess == true  ){
+	   	if(newProps.groupCreateSuccess == true || newProps.deleteGroupSuccess == true   ){
 	   			 newProps.getAllGroups(this.props.email) ; 
 		}
 
-	   	if(newProps.groupCreateSuccess == false || newProps.deleteGroupSuccess == false){
+	   	if(newProps.groupCreateSuccess == false || newProps.deleteGroupSuccess == false  ){
 	   		newProps.setBackGroupsVariables() ; 
 	   	}
 
+	   	if(newProps.shareFileSuccess == true ){
+	   		//notification for file share success 
+	   		newProps.getAllFiles(newProps.email,'',newProps.directory) ; 
+	   	}
+
+	   	if(newProps.shareFileSuccess == true){
+	   		//show notification
+	   		newProps.setBackGroupsVariables() ; 
+	   	}
 
 
 
@@ -521,7 +528,9 @@ function mapStateToProps(state) {
         groupCreateSuccess : state.groupsReducer.groupCreateSuccess,
         deleteMemberSuccess : state.groupsReducer.deleteMemberSuccess,
         deleteGroupSuccess : state.groupsReducer.deleteGroupSuccess,
-        createFolderSuccess : state.fileUploadReducer.createFolderSuccess
+        createFolderSuccess : state.fileUploadReducer.createFolderSuccess,
+        shareFileSuccess : state.fileUploadReducer.shareFileSuccess ,
+        shareFileSuccess : state.groupsReducer.shareFileSuccess
     };
 }
 

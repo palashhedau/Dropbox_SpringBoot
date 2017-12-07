@@ -13,7 +13,7 @@ export function shareFile(filename , directory , fromUser , toUser , is_director
 	
 	console.log("SGaring " , is_directory);
 		return function(dispatch){
-			fetch('http://localhost:3002/shareFile', {
+			fetch('http://localhost:8081/shareFile', {
 	        method: 'POST',
 	        headers: {
 	            ...headers,
@@ -22,23 +22,17 @@ export function shareFile(filename , directory , fromUser , toUser , is_director
 	        credentials:'include',
 	   	    body: JSON.stringify({	filename : filename,
 							  	directory : directory,
-							  	fromUser : fromUser ,
-							  	 toUser : toUser,
-							  	 is_directory : is_directory })
+							  	email : fromUser ,
+							  	 touser : toUser,
+							  	 isdirectory : is_directory })
 
 	  		}).then(function (response) {
-			       
-			       response.json().then(res => {
-			      	
-			      	dispatch({type : 'SHARE_FILE_SUCCESS' , payload : null });
-			      
-				})
-																		        
-	   		})
+			    response.json().then(res => {
+			      	dispatch({type : 'SHARE_FILE' , payload : res });
+			    })
+			})
 	        .catch(error => {
-	            console.log("This is error");
-	             dispatch({type : 'SHARE_FILE_ERROR' , payload : null})
-	            
+	           dispatch({type : 'SHARE_FILE' , payload : false})
 	        })
 		}
 }
@@ -48,7 +42,7 @@ export function shareFile(filename , directory , fromUser , toUser , is_director
 export function getAllSharedComponents(email )  {
 	
 	return function(dispatch){
-			fetch('http://localhost:3002/getAllSharedFile', {
+			fetch('http://localhost:8081/getAllSharedFile', {
 	        method: 'POST',
 	        headers: {
 	            ...headers,
@@ -58,23 +52,14 @@ export function getAllSharedComponents(email )  {
 	   	    body: JSON.stringify({	email : email})
 
 	  		}).then(function (response) {
-			      
-			       response.json().then(res => {
-			      	
-			      	dispatch({type : 'GET_SHARED_FILE_SUCCESS' , payload : res.filelist });
-			      
-				})
-																		        
-	   		})
+			    response.json().then(res => {
+			      	dispatch({type : 'GET_SHARED_FILE_SUCCESS' , payload : res });
+			    })
+			})
 	        .catch(error => {
-	            console.log("This is error");
 	            dispatch({type : 'GET_SHARED_FILE_FAILURE' , payload : null})
-	            
 	        })
 		}
-
-
-
 }
 
 
@@ -87,7 +72,7 @@ export function shareFileInGroup(email , groupname , filename , directory , is_d
 	var owner = groupname.substring(groupname.indexOf('- ')+2 ,groupname.length )
 
 	return function(dispatch){
-			fetch('http://localhost:3002/shareFileWithGroup', {
+			fetch('http://localhost:8081/shareFileWithGroup', {
 	        method: 'POST',
 	        headers: {
 	            ...headers,
@@ -99,28 +84,17 @@ export function shareFileInGroup(email , groupname , filename , directory , is_d
 								  	filename : filename,
 								  	directory : directory,
 								  	groupowner :  owner ,
-								  	isDirectory : is_directory})
+								  	isdirectory : is_directory})
 
 	  		}).then(function (response) {
-			      
-			      response.json().then(res => {
-			      
-			     dispatch({type : 'GET_SHARED_FILE_WITH_GROUP_SUCCESS' , payload : null });
-			      
-				})
-																		        
-	   		})
+			     response.json().then(res => {
+			    	dispatch({type : 'SHARE_FILE_GROUP' , payload : res });
+			    })
+			})
 	        .catch(error => {
-	            
-	             dispatch({type : 'GET_SHARED_FILE_WITH_GROUP_FAILURE' , payload : null})
+	            dispatch({type : 'SHARE_FILE_GROUP' , payload : false})
 	        })
 		}
-
-
-
-
-
-
 }
 
 
@@ -133,6 +107,8 @@ export function setCurrentShared(email ){
 	}
 }
 
+
+
 export function openFolderAndViewContentIndividual(email , folderowner ,  foldername)  {
 	
 	
@@ -144,9 +120,9 @@ export function openFolderAndViewContentIndividual(email , folderowner ,  folder
 	            'Content-Type': 'application/json'
 	        },
 	        credentials:'include',
-	   	    body: JSON.stringify({email : email,
-			folderowner : folderowner,
-			foldername : foldername  })
+	   	    body: JSON.stringify({
+			email : folderowner,
+			directory : foldername  })
 
 	  		}).then(function (response) {
 			      response.json().then(res => {

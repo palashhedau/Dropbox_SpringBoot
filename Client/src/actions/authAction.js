@@ -13,32 +13,30 @@ const headers = {
 export function checkUser(email , password ){
 	
 		return function(dispatch){
-			fetch('http://localhost:3002/login', {
+			fetch('http://localhost:8081/login', {
 	        method: 'POST',
 	        headers: {
 	            ...headers,
 	            'Content-Type': 'application/json'
 	        },
 	        credentials:'include',
-	   	    body: JSON.stringify({username: email, password: password})
+	   	    body: JSON.stringify({email: email, password: password})
 
 	  		}).then(function (response) {
-			        
 			      response.json().then(res => {
-			      	
-
-			      	if(res.user === null){
-			      		dispatch({ type : 'UNSUCCESSFUL_LOGIN' , payload : { userFound : res.loggedIn }} )
-			      	}else{
-			      		dispatch({ type : 'SET_CURRENT_USER' , payload : { userFound : res.loggedIn , user : res.user}} )
-			      	}
 			      
-				})
+			      	
+			      	if(res.length == 0 ){
+			      		dispatch({ type : 'UNSUCCESSFUL_LOGIN' , payload : { userFound : false }} )
+			      	}else{
+			      		dispatch({ type : 'SET_CURRENT_USER' , payload : { userFound : true  , user : res[0]}} )
+			    	}
+
+			    })
 																		        
 	   		})
 	        .catch(error => {
 	            console.log("This is error");
-	            
 	        })
 		}
 	
@@ -49,8 +47,6 @@ export function checkUser(email , password ){
 
 
 export function logout()  {
-	
-
 	return function(dispatch){
 			fetch('http://localhost:3002/logout', {
 	        method: 'POST',
@@ -71,15 +67,12 @@ export function logout()  {
 	        })
 		}
 
-
-	
 }
 
 
 
 
 export function checkIfAldreadyLoggedIn()  {
-	
 	
 	return function(dispatch){
 			fetch('http://localhost:3002/checkIfAlreadyLoggedIn', {
@@ -90,7 +83,6 @@ export function checkIfAldreadyLoggedIn()  {
 	        },
 	        credentials:'include'
 			}).then(function (response) {
-			   
 			   response.json().then(res => {
 			      	if(res.user === null){
 			      		dispatch({ type : 'UNSUCCESSFUL_LOGIN' , payload : { userFound : res.loggedIn }} )
@@ -99,7 +91,6 @@ export function checkIfAldreadyLoggedIn()  {
 			      	}
 			      
 				})
-				
 			})
 	        .catch(error => {
 	            console.log("This is error");

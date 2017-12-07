@@ -10,7 +10,8 @@ const initialState = {
 
 	groupCreateSuccess : null,
 	deleteMemberSuccess : null ,
-	deleteGroupSuccess : null
+	deleteGroupSuccess : null ,
+	shareFileSuccess : null
 }
 
 
@@ -19,10 +20,10 @@ export default function reducer (state=initialState , action )  {
 		
 		//get all groups
 		case 'GET_ALL_GROUPS_SUCCESS' : {
-			return {...state ,  getAllGroups : action.payload  , groupCreateSuccess : null , deleteMemberSuccess : null , deleteGroupSuccess : null}
+			return {...state ,  getAllGroups : action.payload  ,shareFileSuccess : null ,  groupCreateSuccess : null , deleteMemberSuccess : null , deleteGroupSuccess : null}
 		}
 		case 'GET_ALL_GROUPS_FAILURE' : {
-			return {...state ,  error : action.payload ,   groupCreateSuccess : null , deleteMemberSuccess : null , deleteGroupSuccess : null}
+			return {...state ,  error : action.payload ,   shareFileSuccess : null , groupCreateSuccess : null , deleteMemberSuccess : null , deleteGroupSuccess : null}
 		}
 
 		
@@ -47,6 +48,13 @@ export default function reducer (state=initialState , action )  {
 		}
 
 
+		//share file to group
+		case 'SHARE_FILE_GROUP' : {
+			return {...state ,  shareFileSuccess : action.payload }
+		}
+		
+
+
 		//get group name 
 		case 'GET_GROUP_NAME_SUCCESS' : {
 			return {...state ,  groupname : action.payload }
@@ -61,7 +69,8 @@ export default function reducer (state=initialState , action )  {
 		
 		//set back variables
 		case 'SET_BACK_GROUP_REDUCER_VARIABLES' : {
-			return {...state ,  groupCreateSuccess : null , deleteMemberSuccess : null , deleteGroupSuccess : null }
+			return {...state ,  groupCreateSuccess : null , shareFileSuccess : null ,  deleteMemberSuccess : null ,
+								 deleteGroupSuccess : null }
 		}
 
 		default :

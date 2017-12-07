@@ -10,10 +10,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MultiValueMap;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.WriteResult;
+import com.tools.entity.GroupFiles;
 import com.tools.entity.GroupMembers;
 import com.tools.entity.groups;
 import com.tools.repository.GroupsRepository;
@@ -45,6 +44,9 @@ public class GroupService {
 			List <GroupMembers> listOfGroupMember = new ArrayList<>() ; 
 			listOfGroupMember.add(members) ;
 			
+			List <GroupFiles> listOfFiles = new ArrayList<>();
+			grp.setFilelist(listOfFiles);
+			
 			grp.setMembers(listOfGroupMember);
 			groups savedGrp = groupRepository.save(grp) ;
 			
@@ -53,7 +55,8 @@ public class GroupService {
 	}
 
 	public List<groups> getAllGroups(GroupParams params) {
-		return   groupRepository.getGroupsForUser(params.getEmail());
+		 List<groups> grps =  groupRepository.getGroupsForUser(params.getEmail());
+		return grps ; 
 	}
 
 	public groups getGroupName(GroupParams params) {

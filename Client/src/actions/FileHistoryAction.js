@@ -7,9 +7,8 @@ const headers = {
 
 export function getHistoryItems(email )  {
 	
-
 	return function(dispatch){
-			fetch('http://localhost:3002/getFilesHistory', {
+			fetch('http://localhost:8081/getFilesHistory', {
 	        method: 'POST',
 	        headers: {
 	            ...headers,
@@ -20,20 +19,13 @@ export function getHistoryItems(email )  {
 
 	  		}).then(function (response) {
 			       
-			      response.json().then(res => {
-			      
+			    response.json().then(res => {
 			      	dispatch({type : 'HISTORY_OBJECT_SUCCESS' , payload : res});
-			      
-			      
-				})
+			    })
 																		        
 	   		})
 	        .catch(error => {
 	            console.log("This is error");
-	            
 	        })
-		}
-
-
-	
+	}	
 }

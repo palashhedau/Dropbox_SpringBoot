@@ -328,7 +328,7 @@ function shareFile(msg, db ,dbId ,   callback){
     
     var collection = db.collection('user_shared_files') ; 
          
-         collection.find({from_user : fromUser , to_email : toUser , 
+         collection.find({fromuser : fromUser , touser : toUser , 
                         filename : file_name , directory : directory ,
                         isdirectory : is_directory }).toArray(function(err , result){
              if(err){
@@ -344,8 +344,8 @@ function shareFile(msg, db ,dbId ,   callback){
                      res.success = null ;
                      callback(null , res);
                  }else{
-                     var shareObj = {from_user : fromUser ,
-                                to_email : toUser , 
+                     var shareObj = {fromuser : fromUser ,
+                                touser : toUser , 
                                 filename : file_name ,
                                 directory : directory,
                                 isdirectory : is_directory}

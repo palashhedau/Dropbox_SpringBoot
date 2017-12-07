@@ -13,4 +13,8 @@ public interface UserRepository extends MongoRepository<users , String> {
 	@Query("{\"email\" : {$ne : ?0 }} , {\"email\" : 1 }")
 	List<UserEmails> findAllOtherEmails(String email) ; 
 	
+	List<users> findByEmail(String email ) ; 
+	
+	List<users> findByEmailAndPassword(String email , String password ) ; 
+	
 }

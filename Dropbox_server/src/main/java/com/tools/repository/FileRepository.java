@@ -23,7 +23,7 @@ public interface FileRepository extends MongoRepository<user_files , String> {
 	
 	List<user_files> findByEmailAndIsdeletedAndDirectoryAndFilename(String email , int isDeleted, String directory , String filename );
 	
-	
+	List<user_files> findByEmailAndIsdeleted(String email , int delete) ; 
 	
 }
 

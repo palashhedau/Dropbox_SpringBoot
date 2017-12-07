@@ -32,7 +32,7 @@ public class GroupController {
 	
 	@RequestMapping(method=RequestMethod.POST , value="/getAllGroups", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<groups> getAllGroups(@RequestBody GroupParams params){
-		return groupService.getAllGroups(params) ;  
+		return groupService.getAllGroups(params) ; 
 	}
 	
 	@RequestMapping(method=RequestMethod.POST , value="/getGroupName", produces = MediaType.APPLICATION_JSON_VALUE)

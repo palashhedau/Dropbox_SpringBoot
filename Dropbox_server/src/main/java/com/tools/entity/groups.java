@@ -7,10 +7,14 @@ public class groups {
 	String groupowner , groupname ;
 	List <GroupMembers> members ; 
 	List <GroupFiles> filelist ;
-	public String get_id() {
+	
+	
+	
+
+	public String getId() {
 		return id;
 	}
-	public void set_id(String _id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getGroupowner() {

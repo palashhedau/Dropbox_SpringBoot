@@ -228,18 +228,18 @@ class GroupComponent extends Component{
 								 		<td>
 								 			
 											{
-												file.is_directory == '1' ?
+												file.isdirectory == '1' ?
 												<a onClick={() => {
 									 				this.props.setCurrentGroupFolder(
-									 				file.file_owner , file.file_directory , file.filename ) ; 
+									 				file.fileowner , file.filedirectory , file.filename ) ; 
 									 				this.props.history.push('/sharedFolderInGroup/'+    file.file_directory + '/'+ file.filename)
 									 			}} >
 									 				<img src={require("../../fonts/folder.jpg")}  height="40" width="40"/>
 									 				{file.filename}</a> 
 									 			: 
 									 			<a onClick={() => {
-								 				viewFileForGroup(this.props.email ,  file.file_owner , file.filename 
-						 										, file.file_directory)
+								 				viewFileForGroup(this.props.email ,  file.fileowner , file.filename 
+						 										, file.filedirectory)
 										 			}} >
 										 			{ file.filename.indexOf('.jpg') !== -1 ? 
 															(<img src={require("../../fonts/image.jpg")}  height="40" width="40"/>) : 
@@ -251,11 +251,11 @@ class GroupComponent extends Component{
 										 			{file.filename}</a>
 											}
 
-
+											
 								 			
 								 		</td>
 								 		<td>	
-								 			<a >{file.file_owner}</a>
+								 			<a >{file.fileowner}</a>
 								 		</td>
 								 </tr>
 						})}
