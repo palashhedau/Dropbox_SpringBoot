@@ -1,25 +1,43 @@
 package com.tools.service;
 
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import javax.activation.MimetypesFileTypeMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
+import com.mongodb.gridfs.GridFSDBFile;
+import com.mongodb.gridfs.GridFSFile;
 import com.tools.entity.GroupFiles;
 import com.tools.entity.groups;
 import com.tools.entity.user_files;
 import com.tools.entity.user_shared_files;
+import com.tools.mongoConfig.SpringMongoConfig;
 import com.tools.repository.FileRepository;
 import com.tools.repository.GroupsRepository;
 import com.tools.repository.UserSharedFileRepository;
@@ -213,6 +231,92 @@ public class FileService {
 	public List<user_files> readFolderForIndividuals(ShareFileParams params) {
 		System.out.println("XXXXXXXXX" + params.getEmail() + "   " + params.getDirectory());
 		return null;
+	}
+
+	public boolean upload(MultipartFile file, String name, String email, String directory) {
+		// TODO Auto-generated method stub
+		
+		
+		
+		if(fileRepository.findByEmailAndIsdeletedAndDirectoryAndFilename(email, 0, directory, name).size() == 0 ) {
+			ApplicationContext ctx =  new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+			GridFsOperations gridOperations = (GridFsOperations) ctx.getBean("gridFsTemplate");
+			
+			DBObject metaData = new BasicDBObject();
+			metaData.put("email", email);
+			metaData.put("directory", directory );
+			metaData.put("filename", name);
+			
+			InputStream inputStream = null ; 
+			try {
+				byte[] bytes = file.getBytes();
+
+				// Creating the directory to store file
+				File dir = new File("uploads" + File.separator + email);
+				if (!dir.exists())
+					dir.mkdirs();
+
+				// Create the file on server
+				File serverFile = new File(dir.getAbsolutePath()
+						+ File.separator + name);
+				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+				stream.write(bytes);
+				stream.close();
+				
+				inputStream = new FileInputStream(serverFile.getAbsolutePath());
+				MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
+				String mimeType = mimeTypesMap.getContentType(serverFile.getAbsolutePath());
+				GridFSFile objectId = gridOperations.store(inputStream ,name ,mimeType ,  metaData);
+				
+				if(objectId != null) {
+					user_files fileToUpload = new user_files();
+					fileToUpload.setDirectory(directory);
+					fileToUpload.setEmail(email);
+					fileToUpload.setFilename(name);
+					fileToUpload.setStarred(0);
+					fileToUpload.setIsdirectory(0);
+					fileToUpload.setIsdeleted(0);
+					fileToUpload.setFileadddate(new Date());
+					
+					user_files fileSaved = fileRepository.save(fileToUpload);
+					if(fileSaved != null) return true; else return false ; 
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally {
+				if (inputStream != null) {
+					try {
+						inputStream.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}else{
+			return false; 
+		};
+		return false ; 
+	}
+
+	public String downloadFile(String email , String filename , String directory ) {
+		
+		ApplicationContext ctx =  new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+		GridFsOperations gridOperations = (GridFsOperations) ctx.getBean("gridFsTemplate");
+		
+		List<GridFSDBFile> result = gridOperations.find(
+	               new Query().addCriteria(Criteria.where("filename").is(filename).and("metadata.email").is(email).and("metadata.directory").is(directory)));
+		
+		for (GridFSDBFile file : result) {
+			try {
+				String path = "uploads" + File.separator + email + "/" + file.getFilename() ; 
+				file.writeTo(path);
+				return path ; 
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return "";
 	}
 	
 	

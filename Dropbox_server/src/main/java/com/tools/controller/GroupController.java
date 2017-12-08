@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mongodb.WriteResult;
 import com.tools.entity.groups;
+import com.tools.entity.user_files;
 import com.tools.requestparams.GroupParams;
 import com.tools.service.GroupService;
 
@@ -71,6 +71,29 @@ public class GroupController {
 		
 		return new  ResponseEntity(groupService.deleteGroup(params) , HttpStatus.OK) ;
 	}
+	
+	@RequestMapping(method=RequestMethod.POST , value="/getAllSharedGroupComponents", produces = MediaType.APPLICATION_JSON_VALUE)
+	public  ResponseEntity<?> getAllSharedGroupComponents(@RequestBody GroupParams params){
+		
+		return new  ResponseEntity(groupService.getAllSharedGroupComponents(params) , HttpStatus.OK) ;
+	}
+	
+	@RequestMapping(method=RequestMethod.POST , value="/readFolderForGroups", produces = MediaType.APPLICATION_JSON_VALUE)
+	public  ResponseEntity<?> readFolderForGroups(@RequestBody user_files params){
+		return new  ResponseEntity(groupService.readFolderForGroups(params) , HttpStatus.OK) ;
+	}
+	
+	
+	
+	@RequestMapping(method=RequestMethod.POST , value="/readIndividualFolder", produces = MediaType.APPLICATION_JSON_VALUE)
+	public  ResponseEntity<?> readFolderForIndividuals(@RequestBody user_files params){
+		return new  ResponseEntity(groupService.readFolderForIndividuals(params) , HttpStatus.OK) ;
+	}
+	
+	
+	
+	
+	
 	
 	
 	

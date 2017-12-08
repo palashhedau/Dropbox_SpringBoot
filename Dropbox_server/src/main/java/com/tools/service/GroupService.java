@@ -10,11 +10,14 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import com.mongodb.BasicDBObject;
 import com.tools.entity.GroupFiles;
 import com.tools.entity.GroupMembers;
 import com.tools.entity.groups;
+import com.tools.entity.user_files;
+import com.tools.repository.FileRepository;
 import com.tools.repository.GroupsRepository;
 import com.tools.requestparams.GroupParams;
 
@@ -26,6 +29,9 @@ public class GroupService {
 	
 	@Autowired
 	MongoTemplate mongoTemplate ; 
+	
+	@Autowired
+	FileRepository fileRepository ; 
 	
 	public boolean createGroup(GroupParams params){
 		
@@ -136,6 +142,33 @@ public class GroupService {
 		long deleteResult = groupRepository.deleteById(params.getId());
 		return deleteResult ==1 ? true : false ;
 	}
+
+	public List<GroupFiles> getAllSharedGroupComponents(GroupParams params) {
+		
+		List<groups > grp = groupRepository.findById(params.getId()) ; 
+		
+		if(grp.size() == 1 ) {
+			Optional <groups> grpToFind = grp.stream().findFirst() ;
+			if(grpToFind.isPresent()) {
+				System.out.println();
+				return grpToFind.get().getFilelist(); 
+			}
+		}else {
+			List<GroupFiles> EmptyFileList = new ArrayList<>() ;
+			return  EmptyFileList; 
+		}
+		return new ArrayList<>() ; 
+	}
+
+	public List<user_files> readFolderForGroups(user_files params) {
+		return fileRepository.findByEmailAndDirectoryAndIsdeleted(params.getEmail(), params.getDirectory(), 0) ; 
+	}
+
+	public List<user_files> readFolderForIndividuals(user_files params) {
+		return fileRepository.findByEmailAndDirectoryAndIsdeleted(params.getEmail(), params.getDirectory(), 0);
+	}
+
+	
 	
 	
 }

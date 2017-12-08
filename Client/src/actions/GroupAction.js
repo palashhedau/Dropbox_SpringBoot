@@ -231,22 +231,22 @@ export function setCurrentGroupFolder(fromEmail , directory , filename ){
 
 export function openFolderAndViewContent(email , folderowner ,  foldername)  {
 	return function(dispatch){
-			fetch('http://localhost:3002/readFolderForGroups', {
+			fetch('http://localhost:8081/readFolderForGroups', {
 	        method: 'POST',
 	        headers: {
 	            ...headers,
 	            'Content-Type': 'application/json'
 	        },
 	        credentials:'include',
-	   	    body: JSON.stringify({ email : email,
-			folderowner : folderowner,
-			foldername : foldername })
+	   	    body: JSON.stringify({ 
+								email : folderowner,
+								directory : foldername })
 
 	  		}).then(function (response) {
 			        
 			      response.json().then(res => {
-			      
-			      dispatch({type : 'SET_CURRENT_GROUP_FOLDER_CONTENT_SUCCESS' , payload :    res.subGroupContent })
+			      console.log("Geting for nested group " , res ) ; 
+			      dispatch({type : 'SET_CURRENT_GROUP_FOLDER_CONTENT_SUCCESS' , payload : res })
 			      
 				})
 																		        
@@ -272,7 +272,7 @@ export function openFolderAndViewContent(email , folderowner ,  foldername)  {
 
 export function getAllSharedGroupComponents(email , groupname )  {
 	return function(dispatch){
-			fetch('http://localhost:3002/getAllSharedGroupComponents', {
+			fetch('http://localhost:8081/getAllSharedGroupComponents', {
 	        method: 'POST',
 	        headers: {
 	            ...headers,
@@ -280,13 +280,12 @@ export function getAllSharedGroupComponents(email , groupname )  {
 	        },
 	        credentials:'include',
 	   	    body: JSON.stringify({ email : email,
-	  			group_id : groupname })
+	  			id : groupname })
 
 	  		}).then(function (response) {
 			    response.json().then(res => {
-			      dispatch({type : 'GET_GROUP_SHARED_FILE_SUCCESS' , payload : res.filelist });
-			      
-				})
+			      dispatch({type : 'GET_GROUP_SHARED_FILE_SUCCESS' , payload : res });
+			    })
 			})
 	        .catch(error => {
 	            

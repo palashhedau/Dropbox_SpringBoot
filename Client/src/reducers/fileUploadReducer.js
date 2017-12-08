@@ -12,7 +12,8 @@ const initialState = {
 	unStarSuccess : null ,
 	starSuccess : null ,
 	createFolderSuccess : null ,
-	shareFileSuccess : null
+	shareFileSuccess : null,
+	fileUploadSuccess : null 
 }
 
 
@@ -20,14 +21,11 @@ export default function reducer (state=initialState , action )  {
 	switch(action.type){
 		
 		//File
-		case 'FILE_UPLOAD_SUCCESS' : {
-			return {...state , listOfFiles : action.payload.filelist};
-		}
-		case 'FILE_UPLOAD_FALIURE' : {
-			return {...state , error : action.payload}
+		case 'FILE_UPLOAD' : {
+			return {...state , fileUploadSuccess : action.payload};
 		}
 		case 'GET_ALL_FILES_SUCCESS' : {
-			return {...state , listOfFiles : action.payload ,shareFileSuccess: null ,  deleteFileSuccess : null , unStarSuccess : null , starSuccess : null , createFolderSuccess : null}
+			return {...state , listOfFiles : action.payload , fileUploadSuccess : null  , shareFileSuccess: null ,  deleteFileSuccess : null , unStarSuccess : null , starSuccess : null , createFolderSuccess : null}
 		}
 
 
@@ -37,7 +35,7 @@ export default function reducer (state=initialState , action )  {
 			return {...state  , starSuccess : action.payload} ;
 		}
 		case 'GET_STAR_FILES' : {
-			return {...state , listOfStarredFiles : action.payload ,shareFileSuccess : null ,  deleteFileSuccess : null , unStarSuccess : null , starSuccess : null , createFolderSuccess : null} ;
+			return {...state , listOfStarredFiles : action.payload , fileUploadSuccess : null  , shareFileSuccess : null ,  deleteFileSuccess : null , unStarSuccess : null , starSuccess : null , createFolderSuccess : null} ;
 		}
 		case 'UN_STAR_FILE' : {
 			return {...state , unStarSuccess :  action.payload } 
@@ -91,17 +89,17 @@ export default function reducer (state=initialState , action )  {
 
 
 		case 'GET_RECENT_FILES_SUCCESS' : {
-			return {...state ,  listOfRecentFiles : action.payload ,shareFileSuccess : null , createFolderSuccess : null ,  deleteFileSuccess : null , unStarSuccess : null , starSuccess : null }
+			return {...state ,  listOfRecentFiles : action.payload , fileUploadSuccess : null  , shareFileSuccess : null , createFolderSuccess : null ,  deleteFileSuccess : null , unStarSuccess : null , starSuccess : null }
 		}
 		case 'SET_CURRENT_INDIVIDUAL_FOLDER_CONTENT_SUCCESS' : {
-			return {...state ,  listOfIndividualSHaredContent : action.payload.subGroupContent}
+			return {...state ,  listOfIndividualSHaredContent : action.payload}
 		}
 
 		
 
 		//set back variables 
 		case 'SET_BACK_FILE_REDUCER_VARIABLES' : {
-			return {...state , shareFileSuccess : null , deleteFileSuccess : null , unStarSuccess : null , starSuccess : null , createFolderSuccess: null}
+			return {...state , shareFileSuccess : null , fileUploadSuccess : null  , deleteFileSuccess : null , unStarSuccess : null , starSuccess : null , createFolderSuccess: null}
 		}
 
 		

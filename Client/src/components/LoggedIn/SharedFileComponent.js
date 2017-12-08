@@ -24,9 +24,9 @@ class SharedFileComponent extends Component{
 			 		<td>
 			 			
 			 			{
-			 				this.props.file.is_directory  === 1 ? 
+			 				this.props.file.isdirectory  === 1 ? 
 			 				<a onClick={() => {
-						 			this.props.setCurrentShared(this.props.file.from_user);
+						 			this.props.setCurrentShared(this.props.file.fromuser);
 						 			this.props.history.push('/sharedFolderInIndividual/'+    this.props.file.directory + '/'+ this.props.file.filename)
 						 		}}>
 					 			<img src={require("../../fonts/folder.jpg")}  height="40" width="40"/>
@@ -36,7 +36,7 @@ class SharedFileComponent extends Component{
 				 			:
 
 				 			<a onClick={() => {
-						 			viewFileForGroup(this.props.email , this.props.file.from_user,
+						 			viewFileForGroup(this.props.email , this.props.file.fromuser,
 						 			this.props.file.filename , this.props.file.directory )
 						 		}}>
 					 			{ this.props.file.filename.indexOf('.jpg') !== -1 ? 
@@ -54,7 +54,7 @@ class SharedFileComponent extends Component{
 
 			 		</td>
 			 		<td>	
-			 			{this.props.file.from_user}
+			 			{this.props.file.fromuser}
 			 		</td>
 			 </tr>
 

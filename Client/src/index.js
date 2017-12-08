@@ -51,8 +51,8 @@ const Main = () => (
 
 
 
-store.dispatch(checkIfAldreadyLoggedIn()) ; 
-
+/*store.dispatch(checkIfAldreadyLoggedIn()) ; 
+*/
   
 
 ReactDOM.render(

@@ -113,7 +113,7 @@ export function openFolderAndViewContentIndividual(email , folderowner ,  folder
 	
 	
 	return function(dispatch){
-			fetch('http://localhost:3002/readFolderForIndividuals', {
+			fetch('http://localhost:8081/readIndividualFolder', {
 	        method: 'POST',
 	        headers: {
 	            ...headers,
@@ -126,7 +126,8 @@ export function openFolderAndViewContentIndividual(email , folderowner ,  folder
 
 	  		}).then(function (response) {
 			      response.json().then(res => {
-			      	dispatch({type : 'SET_CURRENT_INDIVIDUAL_FOLDER_CONTENT_SUCCESS' , payload :    res  })
+			      	console.log("Individual folder " , res ) ; 
+			      	dispatch({type : 'SET_CURRENT_INDIVIDUAL_FOLDER_CONTENT_SUCCESS' , payload : res  })
 			      })
 			})
 	        .catch(error => {

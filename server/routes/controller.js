@@ -36,7 +36,7 @@ module.exports = function(app){
 	
 	app.use(upload()) ; 
 	
-	app.post('/upload' , authenticate ,    function(req, res) {
+	app.post('/upload'  ,    function(req, res) {
 		var email = req.body.email ; 
 		var starred = 0 ; 
 		var is_directory = 0 ; 
@@ -659,7 +659,7 @@ module.exports = function(app){
 		 })
 	})
 	
-	 app.post('/readFolderForGroups', authenticate ,   function(req, res) {
+	 app.post('/readFolderForGroups' ,   function(req, res) {
 		 var email = req.body.email ; 
 		 var folderowner = req.body.folderowner ; 
 		 var foldername = req.body.foldername ; 

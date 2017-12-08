@@ -168,7 +168,7 @@ class Home extends Component{
    componentWillReceiveProps(newProps){
 	   	//Files
 	   	if(newProps.deleteFileSuccess == true || newProps.unStarSuccess == true || newProps.starSuccess == true ||
-	   		newProps.createFolderSuccess == true  ){
+	   		newProps.createFolderSuccess == true || newProps.fileUploadSuccess == true  ){
 	   		  newProps.getAllFiles(newProps.email,'',newProps.directory) ; 
 		      newProps.getAllStarredFiles(newProps.email , newProps.directory);
 		      newProps.getRecentFiles(newProps.email) ; 
@@ -502,8 +502,8 @@ function mapDispatchToProps(dispatch) {
         openFolderAndViewContent : (email , emailFrom  , foldername) => dispatch(openFolderAndViewContent(email , emailFrom  , foldername)),
         openFolderAndViewContentIndividual : (email , emailFrom , foldername) => dispatch(openFolderAndViewContentIndividual(email , emailFrom , foldername)),
         getGroupName : (id ) => dispatch(getGroupName(id)) ,
-        setBackVariables : () => dispatch({TYPE : 'SET_BACK_FILE_REDUCER_VARIABLES'}) ,
-        setBackGroupsVariables : () => dispatch({TYPE : 'SET_BACK_GROUP_REDUCER_VARIABLES'}) ,
+        setBackVariables : () => dispatch({type : 'SET_BACK_FILE_REDUCER_VARIABLES'}) ,
+        setBackGroupsVariables : () => dispatch({type : 'SET_BACK_GROUP_REDUCER_VARIABLES'}) ,
     };
 }
 
@@ -530,7 +530,8 @@ function mapStateToProps(state) {
         deleteGroupSuccess : state.groupsReducer.deleteGroupSuccess,
         createFolderSuccess : state.fileUploadReducer.createFolderSuccess,
         shareFileSuccess : state.fileUploadReducer.shareFileSuccess ,
-        shareFileSuccess : state.groupsReducer.shareFileSuccess
+        shareFileSuccess : state.groupsReducer.shareFileSuccess,
+        fileUploadSuccess : state.fileUploadReducer.fileUploadSuccess
     };
 }
 

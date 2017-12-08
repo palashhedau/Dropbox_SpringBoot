@@ -13,12 +13,12 @@ export function uploadFile(email , file , name , directory )  {
   	
 
 	return  function(dispatch){
-		 axios.post('http://localhost:3002/upload' , data , {withCredentials: true} )
+		 axios.post('http://localhost:8081/upload' , data , {withCredentials: true} )
 	  .then(function (response) {
-	  	dispatch({type : 'FILE_UPLOAD_SUCCESS' , payload : response.data})
+	  	dispatch({type : 'FILE_UPLOAD' , payload : response.data})
 	  })
 	  .catch(function (error) {
-	    dispatch({type : 'FILE_UPLOAD_FALIURE' , payload : error})
+	    dispatch({type : 'FILE_UPLOAD' , payload : false})
 	  })
 	}
 }

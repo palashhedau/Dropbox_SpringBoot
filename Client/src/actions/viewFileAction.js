@@ -9,20 +9,15 @@ const headers = {
 
 
 export function viewFile(email , file , directory )  {
-	console.log("WALLLAAAAA")
-	axios.get('http://localhost:3002/downloadFile',{responseType: 'blob',  params: {
+	axios.get('http://localhost:8081/downloadFile',{responseType: 'blob',  params: {
 		      email: email,
-		      file : file ,
+		      filename : file ,
 		      directory : directory
 		    },
 		    withCredentials: true
 	  })
 	  .then(function (response) {
-	  	
-	  
-		FileSaver.saveAs(response.data, file);
-	    	
-
+	  		FileSaver.saveAs(response.data, file);
 	  })
 	  .catch(function (error) {
 	   		

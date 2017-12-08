@@ -25,30 +25,30 @@ class FileComponent extends Component{
 			 		
 			 	
 			 	{
-			 		this.props.file.is_directory === 1 ? 
+			 		this.props.file.isdirectory === 1 ? 
 			 			
 			 			<a  onClick={() => {
 				 			this.props.setCurrentShared(
 								 				this.props.file.email  ) ;
-							this.props.history.push('/sharedFolderInIndividual/'+    this.props.file.directory + '/'+ this.props.file.file_name) 
+							this.props.history.push('/sharedFolderInIndividual/'+    this.props.file.directory + '/'+ this.props.file.filename) 
 				 			}}> 
 						
 							<img src={require("../../fonts/folder.jpg")}  height="40" width="40"/>
-							{this.props.file.file_name}
+							{this.props.file.filename}
 						</a> 
 			 		 : 
 				 		<a  onClick={() => {
-				 			viewFileForGroup(this.props.email , this.props.file.email , this.props.file.file_name 
+				 			viewFileForGroup(this.props.email , this.props.file.email , this.props.file.filename 
 				 				, this.props.file.directory)
 				 			}}> 
-							{ this.props.file.file_name.indexOf('.jpg') !== -1 ? 
+							{ this.props.file.filename.indexOf('.jpg') !== -1 ? 
 									(<img src={require("../../fonts/image.jpg")}  height="40" width="40"/>) : 
-									 ( this.props.file.file_name.indexOf('.pdf') !== -1 ? 
+									 ( this.props.file.filename.indexOf('.pdf') !== -1 ? 
 									  <img src={require("../../fonts/pdf.jpg")}  height="40" width="40"/> :
 									 <img src={require("../../fonts/doc.jpg")}  height="40" width="40"/> )
 							}
 						
-							{this.props.file.file_name}
+							{this.props.file.filename}
 						</a> 
 			 	}
 

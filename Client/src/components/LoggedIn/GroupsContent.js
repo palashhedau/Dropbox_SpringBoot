@@ -232,7 +232,7 @@ class GroupComponent extends Component{
 												<a onClick={() => {
 									 				this.props.setCurrentGroupFolder(
 									 				file.fileowner , file.filedirectory , file.filename ) ; 
-									 				this.props.history.push('/sharedFolderInGroup/'+    file.file_directory + '/'+ file.filename)
+									 				this.props.history.push('/sharedFolderInGroup/'+    file.filedirectory + '/'+ file.filename)
 									 			}} >
 									 				<img src={require("../../fonts/folder.jpg")}  height="40" width="40"/>
 									 				{file.filename}</a> 
