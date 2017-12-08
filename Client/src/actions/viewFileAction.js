@@ -30,11 +30,10 @@ export function viewFile(email , file , directory )  {
 
 export function viewFileForGroup(email , fileowner , file , directory )  {
 	
-	axios.get('http://localhost:3002/downloadFile',{responseType: 'blob',  params: {
-		      email: email,
-		      file : file ,
+	axios.get('http://localhost:8081/downloadFile',{responseType: 'blob',  params: {
+		      filename : file ,
 		      directory : directory,
-		      fileowner : fileowner
+		      email : fileowner
 		    },
 		    withCredentials: true
 	  })
