@@ -18,14 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tools.entity.users;
 import com.tools.service.AuthService;
 
-@CrossOrigin(origins = "http://localhost:3000" , maxAge = 3600)
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
 	
 	@Autowired
 	AuthService authService ; 
-	
-	
 	
 	@RequestMapping(method=RequestMethod.POST , value="/registration", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getAllUsers(@RequestBody users params ){
