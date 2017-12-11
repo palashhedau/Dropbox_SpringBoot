@@ -17,7 +17,7 @@ class HomeComponent extends Component{
 
 	render(){
 		
-		console.log("Recent List " , this.props.listOfRecentFiles ) ; 
+		
 		const style10 = {
 			height: "10%"
 		}

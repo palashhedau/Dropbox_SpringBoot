@@ -23,8 +23,7 @@ export function createFolder(email , foldername , directory )  {
 			}).then(function (response) {
 			    response.json().then(res => {
 			      dispatch({type : 'CREATE_FOLDERNAME' , payload : res })
-			      
-				})
+			    })
 																		        
 	   		})
 	        .catch(error => {

@@ -77,7 +77,7 @@ public class FileService {
 		Query query = new Query(Criteria.where("email").is(params.getEmail()).and("directory").is(params.getDirectory()).and("filename").is(params.getFilename()));
         Update update = new Update();
         update.set("isdeleted", 1);
-        return mongoTemplate.updateFirst(query, update , user_files.class);
+        return mongoTemplate.updateMulti(query, update , user_files.class);
 		
 	}
 	
@@ -239,6 +239,7 @@ public class FileService {
 		
 		
 		if(fileRepository.findByEmailAndIsdeletedAndDirectoryAndFilename(email, 0, directory, name).size() == 0 ) {
+			System.out.println("Creating new file");
 			ApplicationContext ctx =  new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 			GridFsOperations gridOperations = (GridFsOperations) ctx.getBean("gridFsTemplate");
 			
@@ -267,7 +268,7 @@ public class FileService {
 				MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
 				String mimeType = mimeTypesMap.getContentType(serverFile.getAbsolutePath());
 				GridFSFile objectId = gridOperations.store(inputStream ,name ,mimeType ,  metaData);
-				
+				System.out.println("Adding entry in DB");
 				if(objectId != null) {
 					user_files fileToUpload = new user_files();
 					fileToUpload.setDirectory(directory);

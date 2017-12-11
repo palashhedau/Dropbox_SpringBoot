@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MultiValueMap;
 
 import com.tools.entity.UserEmails;
 import com.tools.entity.profile;
@@ -18,6 +18,8 @@ import com.tools.requestparams.UserParams;
 @Service
 public class UserService {
 	
+	
+	
 	@Autowired
 	private UserRepository userRepository ;
 	
@@ -26,6 +28,9 @@ public class UserService {
 	
 	@Autowired
 	ProfileRepository profileRepository ; 
+	
+	
+	
 
 	public List<UserEmails> getAllUsers(UserParams params) {
 		return  userRepository.findAllOtherEmails(params.getEmail()) ;

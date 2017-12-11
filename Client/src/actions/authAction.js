@@ -48,7 +48,7 @@ export function checkUser(email , password ){
 
 export function logout()  {
 	return function(dispatch){
-			fetch('http://localhost:3002/logout', {
+			fetch('http://localhost:8081/logout', {
 	        method: 'POST',
 	        headers: {
 	            ...headers,
@@ -56,9 +56,9 @@ export function logout()  {
 	        },
 	        credentials:'include'
 			}).then(function (response) {
-			   
-				 response.json().then(res => {
-			      dispatch({ type : 'SET_CURRENT_USER_LOGOUT' , payload : {userFound : res.loggedIn }}) ;
+			   response.json().then(res => {
+			   	console.log()
+			      dispatch({ type : 'SET_CURRENT_USER_LOGOUT' , payload : {userFound : res }}) ;
 			    })
 	
 			})
@@ -75,7 +75,7 @@ export function logout()  {
 export function checkIfAldreadyLoggedIn()  {
 	
 	return function(dispatch){
-			fetch('http://localhost:3002/checkIfAlreadyLoggedIn', {
+			fetch('http://localhost:8081/checkIfAlreadyLoggedIn', {
 	        method: 'POST',
 	        headers: {
 	            ...headers,
@@ -84,10 +84,11 @@ export function checkIfAldreadyLoggedIn()  {
 	        credentials:'include'
 			}).then(function (response) {
 			   response.json().then(res => {
-			      	if(res.user === null){
-			      		dispatch({ type : 'UNSUCCESSFUL_LOGIN' , payload : { userFound : res.loggedIn }} )
+					
+					if(res === false){
+			      		dispatch({ type : 'UNSUCCESSFUL_LOGIN' , payload : { userFound : res }} )
 			      	}else{
-			      		dispatch({ type : 'SET_CURRENT_USER' , payload : { userFound : res.loggedIn , user : res.user}} )
+			      		dispatch({ type : 'SET_CURRENT_USER' , payload : { userFound : true , user : res}} )
 			      	}
 			      
 				})

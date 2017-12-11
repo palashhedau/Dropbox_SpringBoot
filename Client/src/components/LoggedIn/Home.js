@@ -169,7 +169,7 @@ class Home extends Component{
 	   	//Files
 	   	if(newProps.deleteFileSuccess == true || newProps.unStarSuccess == true || newProps.starSuccess == true ||
 	   		newProps.createFolderSuccess == true || newProps.fileUploadSuccess == true  ){
-	   		  newProps.getAllFiles(newProps.email,'',newProps.directory) ; 
+	   		  newProps.getAllFiles(newProps.email,'',this.state.directory) ; 
 		      newProps.getAllStarredFiles(newProps.email , newProps.directory);
 		      newProps.getRecentFiles(newProps.email) ; 
 		}

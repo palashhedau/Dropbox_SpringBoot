@@ -61,7 +61,7 @@ export function deleteGroup(email , groupname , id)  {
 
 
 export function deleteMembersOfGroup(email , membertodelete ,  groupname , id  )  {
-	
+		console.log("Add members " , email , membertodelete , groupname , id)
 		return function(dispatch){
 			fetch('http://localhost:8081/deleteMembersOfGroup', {
 	        method: 'POST',
@@ -130,6 +130,7 @@ export function getMembersOfGroup(email , id )  {
 
 export function addMembersToTheGroup(email , emailtoadd , groupname , id )  {
 	
+
 		return function(dispatch){
 			fetch('http://localhost:8081/addMemberToGroup', {
 	        method: 'POST',

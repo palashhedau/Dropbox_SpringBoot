@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 import javax.activation.MimetypesFileTypeMap;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -39,36 +40,38 @@ public class FileController {
 	
 	@RequestMapping(method=RequestMethod.POST , value="/upload", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?>  upload(@RequestParam("name") String name,
-			@RequestParam("file") MultipartFile file ,@RequestParam("email") String email , @RequestParam("directory") String directory ){
-		return new ResponseEntity(fileService.upload(file , name , email , directory) , HttpStatus.OK) ; 
+			@RequestParam("file") MultipartFile file ,@RequestParam("email") String email , @RequestParam("directory") String directory , HttpSession session){
+		if(session.getAttribute("id") != null) {
+			System.out.println("Upload called");
+			return new ResponseEntity(fileService.upload(file , name , email , directory) , HttpStatus.OK) ; 
+		}else {
+			return new ResponseEntity( HttpStatus.UNAUTHORIZED) ; 
+		}
 	}
 	
 	@RequestMapping(method=RequestMethod.GET , value="/downloadFile")
-	public ResponseEntity<?>  downloadFile(@RequestParam String email , String directory , String filename ){
+	public ResponseEntity<?>  downloadFile(@RequestParam String email , String directory , String filename , HttpSession session ){
 		
-		
-		String filePath = fileService.downloadFile(email , filename , directory ) ; 
-		File file = new File(filePath);
-		/*MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
-		String mimeType = mimeTypesMap.getContentType(filePath);*/
-		
-	    HttpHeaders respHeaders = new HttpHeaders();
-	    //respHeaders.setContentType(mimeType);
-	   // respHeaders.setContentLength(12345678);
-	    respHeaders.setContentDispositionFormData("attachment" , filename);
+		if(session.getAttribute("id") != null) {
+			String filePath = fileService.downloadFile(email , filename , directory ) ; 
+			File file = new File(filePath);
+			
+			HttpHeaders respHeaders = new HttpHeaders();
+		    respHeaders.setContentDispositionFormData("attachment" , filename);
 
-	    InputStreamResource isr;
-		try {
-			isr = new InputStreamResource(new FileInputStream(file));
-			System.out.println("FIle " + isr);
-			return new ResponseEntity<InputStreamResource>(isr, respHeaders, HttpStatus.OK);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		    InputStreamResource isr;
+			try {
+				isr = new InputStreamResource(new FileInputStream(file));
+				System.out.println("FIle " + isr);
+				return new ResponseEntity<InputStreamResource>(isr, respHeaders, HttpStatus.OK);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		    return new ResponseEntity<InputStreamResource>( null , respHeaders, HttpStatus.OK); 
+		}else {
+			return new ResponseEntity( HttpStatus.UNAUTHORIZED) ; 
 		}
-	    
-	    
-		return new ResponseEntity<InputStreamResource>( null , respHeaders, HttpStatus.OK);
+		
 		
 		
 	}
@@ -76,74 +79,121 @@ public class FileController {
 	
 	
 	@RequestMapping(method=RequestMethod.POST , value="/readallfiles", produces = MediaType.APPLICATION_JSON_VALUE)
-	public GetAllFilesResponseParam getAllFiles(@RequestBody GetAllFiles readParams){
-		GetAllFilesResponseParam params = new GetAllFilesResponseParam();
-		params.setFilelist(fileService.getAllFiles(readParams) );
-		return params ; 
+	public GetAllFilesResponseParam getAllFiles(@RequestBody GetAllFiles readParams , HttpSession session){
+		if(session.getAttribute("id") != null) {
+			GetAllFilesResponseParam params = new GetAllFilesResponseParam(); 
+			params.setFilelist(fileService.getAllFiles(readParams) );
+			return params ;
+		}else {
+			return null ; 
+		} 
 	}
 	
 
 	@RequestMapping(method=RequestMethod.POST , value="/readRecentfiles", produces = MediaType.APPLICATION_JSON_VALUE)
-	public GetAllFilesResponseParam getAllRecentFiles(@RequestBody String email){
-		System.out.println("Read Recent for " + email ) ; 
-		GetAllFilesResponseParam params = new GetAllFilesResponseParam();
-		params.setFilelist(fileService.getAllRecentFiles(email));
-		return params  ; 
+	public GetAllFilesResponseParam getAllRecentFiles(@RequestBody String email , HttpSession session){
+		if(session.getAttribute("id") != null) {
+			GetAllFilesResponseParam params = new GetAllFilesResponseParam();
+			params.setFilelist(fileService.getAllRecentFiles(email));
+			return params  ; 
+		}else {
+			return null ; 
+		}
 	}
 	
 	@RequestMapping(method=RequestMethod.POST , value="/delete", produces = MediaType.APPLICATION_JSON_VALUE)
-	public WriteResult deleteFile(@RequestBody FilesParams params){
-		return fileService.deleteFile(params)  ; 
+	public WriteResult deleteFile(@RequestBody FilesParams params , HttpSession session ){
+		if(session.getAttribute("id") != null) {
+			return fileService.deleteFile(params)  ;  
+		}else {
+			return null  ; 
+		}
 	}
 	
 	
 	@RequestMapping(method=RequestMethod.POST , value="/readallStarredfiles", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<user_files> readallStarredfiles(@RequestBody FilesParams params){
-		return fileService.readStarredFiles(params)  ; 
+	public ResponseEntity<?> readallStarredfiles(@RequestBody FilesParams params , HttpSession session){
+		if(session.getAttribute("id") != null) {
+			return  new ResponseEntity(  fileService.readStarredFiles(params)  , HttpStatus.OK)  ;  
+		}else {
+			return  new ResponseEntity(  HttpStatus.UNAUTHORIZED)  ;
+		}
 	}
 	
 	@RequestMapping(method=RequestMethod.POST , value="/unStarfile", produces = MediaType.APPLICATION_JSON_VALUE)
-	public boolean unStarFile(@RequestBody FilesParams params){
-		return fileService.unStarFile(params) ;  
+	public boolean unStarFile(@RequestBody FilesParams params , HttpSession session ){
+		if(session.getAttribute("id") != null) {
+			return fileService.unStarFile(params) ;   
+		}else {
+			return false ; 
+		}
 	}
 
 	@RequestMapping(method=RequestMethod.POST , value="/starFile", produces = MediaType.APPLICATION_JSON_VALUE)
-	public boolean starFile(@RequestBody FilesParams params){
-		return fileService.starFile(params) ;  
+	public boolean starFile(@RequestBody FilesParams params , HttpSession session ){
+		if(session.getAttribute("id") != null) {
+			return fileService.starFile(params) ;   
+		}else {
+			return false ; 
+		}
 	}
 	
 	
 
 	@RequestMapping(method=RequestMethod.POST , value="/createFolder", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?>  createFolder(@RequestBody GetAllFiles params){
-		return new  ResponseEntity(fileService.createFolder(params) , HttpStatus.OK) ;
+	public ResponseEntity<?>  createFolder(@RequestBody GetAllFiles params , HttpSession session ){
+		if(session.getAttribute("id") != null) {
+			return new  ResponseEntity(fileService.createFolder(params) , HttpStatus.OK) ; 
+		}else {
+			return new ResponseEntity( HttpStatus.UNAUTHORIZED) ; 
+		}
 	}
 	
 	@RequestMapping(method=RequestMethod.POST , value="/getFilesHistory", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?>  getFilesHistory(@RequestBody GetAllFiles params){
-		return new  ResponseEntity(fileService.getFilesHistory(params) , HttpStatus.OK) ;
+	public ResponseEntity<?>  getFilesHistory(@RequestBody GetAllFiles params , HttpSession session ){
+		if(session.getAttribute("id") != null) {
+			return new  ResponseEntity(fileService.getFilesHistory(params) , HttpStatus.OK) ; 
+		}else {
+			return new ResponseEntity( HttpStatus.UNAUTHORIZED) ; 
+		}
 	}
 	
 	@RequestMapping(method=RequestMethod.POST , value="/shareFile", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?>  getFilesHistory(@RequestBody ShareFileParams params){
-		return new  ResponseEntity(fileService.shareFile(params) , HttpStatus.OK) ;
+	public ResponseEntity<?>  getFilesHistory(@RequestBody ShareFileParams params , HttpSession session ){
+		if(session.getAttribute("id") != null) {
+			return new  ResponseEntity(fileService.shareFile(params) , HttpStatus.OK) ; 
+		}else {
+			return new ResponseEntity( HttpStatus.UNAUTHORIZED) ; 
+		}
 	}
 	
 	@RequestMapping(method=RequestMethod.POST , value="/getAllSharedFile", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?>  getAllSharedFile(@RequestBody ShareFileParams params){
-		return new  ResponseEntity(fileService.getAllSharedFile(params) , HttpStatus.OK) ;
+	public ResponseEntity<?>  getAllSharedFile(@RequestBody ShareFileParams params , HttpSession session ){
+		if(session.getAttribute("id") != null) {
+			return new  ResponseEntity(fileService.getAllSharedFile(params) , HttpStatus.OK) ; 
+		}else {
+			return new ResponseEntity( HttpStatus.UNAUTHORIZED) ; 
+		}
 	}
 	
 	
 	@RequestMapping(method=RequestMethod.POST , value="/shareFileWithGroup", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?>  shareFileWithGroup(@RequestBody ShareFileParams params){
-		return new  ResponseEntity(fileService.shareFileWithGroup(params) , HttpStatus.OK) ;
+	public ResponseEntity<?>  shareFileWithGroup(@RequestBody ShareFileParams params , HttpSession session){
+		if(session.getAttribute("id") != null) {
+			return new  ResponseEntity(fileService.shareFileWithGroup(params) , HttpStatus.OK) ; 
+		}else {
+			return new ResponseEntity( HttpStatus.UNAUTHORIZED) ; 
+		}
 	}
 	
 	
 	@RequestMapping(method=RequestMethod.POST , value="/readFolderForIndividuals", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?>  readFolderForIndividuals(@RequestBody ShareFileParams params){
-		return new  ResponseEntity(fileService.readFolderForIndividuals(params) , HttpStatus.OK) ;
+	public ResponseEntity<?>  readFolderForIndividuals(@RequestBody ShareFileParams params , HttpSession session){
+		if(session.getAttribute("id") != null) {
+			return new  ResponseEntity(fileService.readFolderForIndividuals(params) , HttpStatus.OK) ;
+		}else {
+			return new ResponseEntity( HttpStatus.UNAUTHORIZED) ; 
+		}
 	}
 	
 	

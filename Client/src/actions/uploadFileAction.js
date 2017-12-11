@@ -15,6 +15,7 @@ export function uploadFile(email , file , name , directory )  {
 	return  function(dispatch){
 		 axios.post('http://localhost:8081/upload' , data , {withCredentials: true} )
 	  .then(function (response) {
+	  	console.log("Upload " , response.data)
 	  	dispatch({type : 'FILE_UPLOAD' , payload : response.data})
 	  })
 	  .catch(function (error) {

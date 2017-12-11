@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.WriteResult;
 import com.tools.entity.GroupFiles;
 import com.tools.entity.GroupMembers;
 import com.tools.entity.groups;
@@ -90,14 +91,17 @@ public class GroupService {
 		List<groups> grp =  groupRepository.findIfPersonIsInGroup(params.getId(), params.getEmailtoadd()); 
 		if(grp.size() == 1) {
 			//Already present 
+			System.out.println("Member Already present ");
 			return  false ;
 		}else {
+			System.out.println("Adding member  ");
+			System.out.println("Getting group " + params.getId());
 			List <groups> grps = groupRepository.findById(params.getId());
 			if(grps.size() == 1 ) {
 				Optional<groups> groupToAdd = grps.stream().findFirst();
 				if(groupToAdd.isPresent()) {
 					groups group = groupToAdd.get();
-					
+					System.out.println("Grup to add " + group.getGroupname());
 					GroupMembers memberToAdd = new GroupMembers();
 					memberToAdd.setEmail(params.getEmailtoadd());
 					memberToAdd.setGroupowner(params.getEmail());
@@ -130,12 +134,13 @@ public class GroupService {
 	}
 
 	public boolean deleteMembersOfGroup(GroupParams params) {
+		System.out.println("Member to delete " + params.getMembertodelete());
 		Update update = new Update().pull("members", 
 				       new BasicDBObject("email", params.getMembertodelete()));
 		
-		return mongoTemplate.updateFirst(new Query(), update, groups.class).wasAcknowledged();
-		
-		
+		 WriteResult result  =  mongoTemplate.updateMulti(new Query(), update, groups.class) ; 
+		 System.out.println("Result after pull " + result );
+		return true ; 
 	}
 
 	public boolean deleteGroup(GroupParams params) {

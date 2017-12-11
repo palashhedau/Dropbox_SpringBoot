@@ -71,7 +71,7 @@ class GroupComponent extends Component{
 							<h4 className="modal-title textCenter">Are you sure you want to delete the group ?</h4>
 							   <div className="modal-footer">
 									       <button type="button" className="btn btn-danger"  onClick={() => {
-									 		this.props.deleteGroup(this.props.email , this.props.group.groupname , this.props.group._id)
+									 		this.props.deleteGroup(this.props.email , this.props.group.groupname , this.props.group.id)
 									 		}} >Delete</button>
 									       <button type="button" className="btn btn-default" onClick={() => {
 			                      				this.setState({modalIsOpen: false});
@@ -106,7 +106,7 @@ class GroupComponent extends Component{
 								if (this.state.addTogroup === ''){
 								}else{
 									this.props.addMembersToTheGroup(this.props.email , this.state.addTogroup , 
-												this.props.group.groupname , this.props.group._id)
+												this.props.group.groupname , this.props.group.id)
 								}
 
 								this.setState({

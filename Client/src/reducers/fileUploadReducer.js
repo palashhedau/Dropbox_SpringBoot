@@ -51,7 +51,7 @@ export default function reducer (state=initialState , action )  {
 		
 		//folder 
 		case 'CREATE_FOLDERNAME' : {
-			return {...state , listOfFiles : action.payload.filelist } 
+			return {...state , createFolderSuccess : action.payload } 
 		}
 
 
